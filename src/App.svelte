@@ -1,43 +1,41 @@
 <script>
-	export let name;
- let a = 1;
- let b = 2;
+    import { Router, Route, Link } from "svelte-navigator";
+    import BackButton from "./BackButton.svelte";
+    import ForwardButton from "./ForwardButton.svelte";
+    import Example1 from "./Example1.svelte";
+    export let name;
 </script>
 
-<main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-<label>
- <input type=number bind:value={a} min=0 max=10>
- <input type=range bind:value={a} min=0 max=10>
-</label>
- 
-<label>
- <input type=number bind:value={b} min=0 max=10>
- <input type=range bind:value={b} min=0 max=10>
-</label>
- 
-<p>{a} + {b} = {a + b}</p>
-</main>
+<Router>
+    <header>
+        <h1>History</h1>
 
-<style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
+        <nav>
+            <BackButton />
+            <ForwardButton />
+            <Link to="/">Base</Link>
+            <Link to="home">Home</Link>
+            <Link to="about">About</Link>
+            <Link to="example1/{name}">Example1</Link>
+        </nav>
+    </header>
 
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
+    <main>
+        <Route path="example1/*example1Route" component={Example1} />
 
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
-</style>
+        <Route path="home">
+            <h3>Home</h3>
+            <p>Home sweet home...</p>
+        </Route>
+
+        <Route path="about">
+            <h3>About</h3>
+            <p>That's what it's all about!</p>
+        </Route>
+
+        <Route>
+            <h3>Default</h3>
+            <p>No Route could be matched.</p>
+        </Route>
+    </main>
+</Router>
